@@ -12,3 +12,8 @@ dist/
 *.log
 npm-debug.log*
 
+# Vercel
+.vercel
+.env.*.local
+
+

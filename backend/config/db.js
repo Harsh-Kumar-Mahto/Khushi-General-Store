@@ -15,29 +15,66 @@ async function ensureSrvResolution(mongoUri) {
   if (!host) return;
 
   const srvName = `_mongodb._tcp.${host}`;
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('SRV_TIMEOUT')), 2500)
-  );
+  let timer;
+  const timeoutPromise = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error('SRV_TIMEOUT')), 2500);
+  });
 
   try {
     await Promise.race([dns.promises.resolveSrv(srvName), timeoutPromise]);
   } catch {
     dns.setServers(['8.8.8.8', '1.1.1.1']);
+  } finally {
+    clearTimeout(timer);
   }
 }
 
+let cached = global.__mongooseCache;
+if (!cached) {
+  cached = global.__mongooseCache = { conn: null, promise: null };
+}
+
 async function connectDB() {
-  const mongoUri = process.env.MONGO_URI || DEFAULT_LOCAL_URI;
+  if (cached.conn && mongoose.connection.readyState === 1) {
+    return cached.conn;
+  }
+
+  // Reset stale cache if a previously established connection dropped.
+  if (mongoose.connection.readyState === 0) {
+    cached.conn = null;
+    cached.promise = null;
+  }
+
+  const mongoUri = process.env.MONGO_URI || (process.env.VERCEL ? '' : DEFAULT_LOCAL_URI);
+
+  if (!mongoUri) {
+    throw new Error('MONGO_URI environment variable is not set.');
+  }
 
   if (mongoUri.includes('<db_password>')) {
     throw new Error(
-      'Please replace <db_password> in backend/.env with your actual MongoDB Atlas password.'
+      'Please replace <db_password> in MONGO_URI with your actual MongoDB Atlas password.'
     );
   }
 
-  await ensureSrvResolution(mongoUri);
-  await mongoose.connect(mongoUri);
-  return mongoUri;
+  if (!cached.promise) {
+    cached.promise = (async () => {
+      await ensureSrvResolution(mongoUri);
+      return mongoose.connect(mongoUri, {
+        serverSelectionTimeoutMS: 8000,
+      });
+    })();
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (err) {
+    cached.promise = null;
+    cached.conn = null;
+    throw err;
+  }
+
+  return cached.conn;
 }
 
 module.exports = { connectDB, DEFAULT_LOCAL_URI };
