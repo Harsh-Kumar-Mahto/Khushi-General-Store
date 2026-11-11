@@ -53,12 +53,14 @@ export default function CustomerDetail({
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState('');
 
-  const messagesEndRef = useRef(null);
+  const feedRef = useRef(null);
 
   const displayCustomer = customer || initialCustomer;
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const feed = feedRef.current;
+    if (!feed) return;
+    feed.scrollTo({ top: feed.scrollHeight, behavior: 'smooth' });
   }, [transactions]);
 
   const handleTransaction = async (type) => {
@@ -122,9 +124,9 @@ export default function CustomerDetail({
   const dateGroups = groupByDate(transactions);
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full min-h-0 bg-white">
       {/* Header */}
-      <div className="bg-[#075e54] text-white px-3 pt-6 pb-3 safe-area-top flex-shrink-0">
+      <div className="bg-[#075e54] text-white px-3 pb-2.5 sm:pb-3 safe-area-top flex-shrink-0">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
@@ -182,7 +184,7 @@ export default function CustomerDetail({
       </div>
 
       {/* Transactions Feed */}
-      <div className="flex-1 overflow-y-auto chat-bg px-3 py-2 scrollbar-hide">
+      <div ref={feedRef} className="flex-1 min-h-0 overflow-y-auto chat-bg px-3 py-2 scrollbar-hide">
         {loading && (
           <div className="flex justify-center items-center h-32">
             <div className="w-5 h-5 border-2 border-[#075e54] border-t-transparent rounded-full animate-spin" />
@@ -218,32 +220,31 @@ export default function CustomerDetail({
               ))}
             </div>
           ))}
-
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Bottom Input Dock */}
-      <div className="bg-white border-t border-gray-200 px-3 py-2.5 flex-shrink-0 safe-area-bottom">
+      <div className="bg-white border-t border-gray-200 px-3 pt-2 sm:pt-2.5 flex-shrink-0 safe-area-bottom">
         {txError && (
-          <p className="text-red-500 text-xs mb-2 px-2 bg-red-50 py-1 rounded-lg text-center">
+          <p className="text-red-500 text-xs mb-1.5 px-2 bg-red-50 py-1 rounded-lg text-center">
             {txError}
           </p>
         )}
         <div className="flex gap-2 mb-2">
-          <div className="flex-1 relative">
+          <div className="flex-1 min-w-0 relative">
             <ShoppingBag className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
             <input
               type="text"
               value={items}
               onChange={(e) => setItems(e.target.value)}
               placeholder="Items / Note (optional)"
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#075e54]/30 focus:border-[#075e54]"
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-3 py-2 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#075e54]/30 focus:border-[#075e54]"
             />
           </div>
-          <div className="w-32 relative">
+          <div className="w-28 sm:w-32 flex-shrink-0 relative">
             <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
             <input
               type="number"
+              inputMode="decimal"
               value={amount}
               onChange={(e) => {
                 setAmount(e.target.value);
@@ -252,7 +253,7 @@ export default function CustomerDetail({
               placeholder="Amount"
               min="0.01"
               step="0.01"
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#075e54]/30 focus:border-[#075e54]"
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-2.5 py-2 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#075e54]/30 focus:border-[#075e54]"
             />
           </div>
         </div>
@@ -261,7 +262,7 @@ export default function CustomerDetail({
             type="button"
             onClick={() => handleTransaction('GIVE')}
             disabled={submitting}
-            className="flex-1 py-2.5 bg-red-500 hover:bg-red-600 disabled:opacity-60 text-white rounded-xl text-sm font-semibold transition-colors active:scale-95"
+            className="flex-1 py-2.5 px-2 bg-red-500 hover:bg-red-600 disabled:opacity-60 text-white rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors active:scale-95"
           >
             📤 You Gave (उधार) +
           </button>
@@ -269,7 +270,7 @@ export default function CustomerDetail({
             type="button"
             onClick={() => handleTransaction('RECEIVE')}
             disabled={submitting}
-            className="flex-1 py-2.5 bg-[#25D366] hover:bg-[#20b558] disabled:opacity-60 text-white rounded-xl text-sm font-semibold transition-colors active:scale-95"
+            className="flex-1 py-2.5 px-2 bg-[#25D366] hover:bg-[#20b558] disabled:opacity-60 text-white rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors active:scale-95"
           >
             📥 You Got (जमा) -
           </button>

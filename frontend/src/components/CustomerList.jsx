@@ -43,9 +43,9 @@ export default function CustomerList({
   };
 
   return (
-    <div className="relative flex flex-col h-full bg-white">
+    <div className="relative flex flex-col h-full min-h-0 bg-white">
       {/* Header */}
-      <div className="bg-[#075e54] text-white px-4 pt-6 pb-3 safe-area-top">
+      <div className="bg-[#075e54] text-white px-4 pb-3 safe-area-top flex-shrink-0">
         <div className="flex items-center justify-between mb-1 gap-2">
           <h1 className="text-lg font-semibold tracking-wide truncate">Khushi General Store</h1>
           <div className="flex items-center gap-1.5 bg-white/10 rounded-full px-3 py-1 flex-shrink-0">
@@ -61,7 +61,7 @@ export default function CustomerList({
       </div>
 
       {/* Search Bar */}
-      <div className="bg-[#075e54] px-3 pb-3">
+      <div className="bg-[#075e54] px-3 pb-3 flex-shrink-0">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
           <input
@@ -69,13 +69,13 @@ export default function CustomerList({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search customers by name or phone..."
-            className="w-full bg-white rounded-full pl-9 pr-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-gray-400 shadow-sm"
+            className="w-full bg-white rounded-full pl-9 pr-4 py-2 text-base sm:text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-gray-400 shadow-sm"
           />
         </div>
       </div>
 
       {/* Customer List */}
-      <div className="flex-1 overflow-y-auto scrollbar-hide pb-20">
+      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide pb-20">
         {loading && (
           <div className="flex flex-col items-center justify-center h-40 gap-2 text-gray-400">
             <div className="w-6 h-6 border-2 border-[#075e54] border-t-transparent rounded-full animate-spin" />
@@ -149,7 +149,7 @@ export default function CustomerList({
       {/* FAB */}
       <button
         onClick={() => setShowModal(true)}
-        className="absolute bottom-5 right-5 w-14 h-14 bg-[#25D366] hover:bg-[#20b558] text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-30"
+        className="absolute right-5 safe-fab-bottom w-14 h-14 bg-[#25D366] hover:bg-[#20b558] text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-30"
         aria-label="Add Customer"
       >
         <Plus size={26} />

@@ -19,11 +19,11 @@ export default function App() {
   };
 
   return (
-    <div className="h-screen bg-gray-100 flex items-stretch justify-center overflow-hidden">
+    <div className="h-app w-full bg-gray-100 flex items-stretch justify-center overflow-hidden">
       {/* Desktop: Side-by-side layout */}
-      <div className="hidden lg:flex w-full max-w-5xl h-screen bg-white shadow-2xl overflow-hidden">
+      <div className="hidden lg:flex w-full max-w-5xl h-full bg-white shadow-2xl overflow-hidden min-h-0">
         {/* Left Panel — Customer List */}
-        <div className="w-96 flex-shrink-0 border-r border-gray-200 flex flex-col overflow-hidden">
+        <div className="w-96 flex-shrink-0 border-r border-gray-200 flex flex-col overflow-hidden min-h-0">
           <CustomerList
             onSelectCustomer={setSelectedCustomer}
             selectedCustomerId={selectedCustomer?._id || null}
@@ -32,7 +32,7 @@ export default function App() {
         </div>
 
         {/* Right Panel — Customer Detail or Placeholder */}
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-hidden min-h-0">
           {selectedCustomer ? (
             <CustomerDetail
               key={selectedCustomer._id}
@@ -58,7 +58,7 @@ export default function App() {
       </div>
 
       {/* Mobile: Full-screen toggle */}
-      <div className="lg:hidden w-full max-w-md flex flex-col overflow-hidden h-screen">
+      <div className="lg:hidden w-full max-w-md flex flex-col overflow-hidden h-full min-h-0">
         {selectedCustomer ? (
           <CustomerDetail
             key={selectedCustomer._id}

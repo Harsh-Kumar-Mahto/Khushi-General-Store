@@ -29,7 +29,7 @@ export default function AddCustomerModal({ onClose, onAdded }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl animate-slide-up">
+      <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl animate-slide-up">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <UserPlus className="text-[#075e54]" size={22} />
@@ -53,7 +53,7 @@ export default function AddCustomerModal({ onClose, onAdded }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Ramesh Sharma"
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#075e54] focus:border-transparent"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#075e54] focus:border-transparent"
               autoFocus
             />
           </div>
@@ -66,7 +66,7 @@ export default function AddCustomerModal({ onClose, onAdded }) {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. 9876543210"
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#075e54] focus:border-transparent"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#075e54] focus:border-transparent"
             />
           </div>
 
