@@ -7,9 +7,8 @@ export default function TransactionBubble({ transaction }) {
   return (
     <div className={`flex ${isGive ? 'justify-end' : 'justify-start'} mb-2`}>
       <div
-        className={`max-w-[75%] rounded-2xl px-3.5 py-2.5 shadow-sm relative ${
-          isGive ? 'bg-[#fed7aa] rounded-tr-sm' : 'bg-[#dcf8c6] rounded-tl-sm'
-        }`}
+        className={`max-w-[75%] rounded-2xl px-3.5 py-2.5 shadow-sm relative ${isGive ? 'bg-[#fed7aa] rounded-tr-sm' : 'bg-[#dcf8c6] rounded-tl-sm'
+          }`}
       >
         {/* Items/Note */}
         {transaction.items ? (
@@ -23,7 +22,7 @@ export default function TransactionBubble({ transaction }) {
         {/* Amount */}
         <div className="flex items-center justify-between gap-4">
           <span className={`text-base font-bold ${isGive ? 'text-red-600' : 'text-green-700'}`}>
-            {isGive ? '+' : '-'}
+            {isGive ? '+ ' : '- '}
             {formatCurrency(transaction.amount)}
           </span>
           <span

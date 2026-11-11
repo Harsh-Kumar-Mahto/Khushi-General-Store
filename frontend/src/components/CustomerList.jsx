@@ -49,14 +49,13 @@ export default function CustomerList({
         <div className="flex items-center justify-between mb-1 gap-2">
           <h1 className="text-lg font-semibold tracking-wide truncate">Khushi General Store</h1>
           <div className="flex items-center gap-1.5 bg-white/10 rounded-full px-3 py-1 flex-shrink-0">
-            <TrendingUp size={13} className="text-red-300" />
             <span className="text-xs font-medium whitespace-nowrap">
               {totalOutstanding > 0 ? `${formatCurrency(totalOutstanding)} Due` : 'All Clear ✓'}
             </span>
           </div>
         </div>
         <p className="text-xs text-white/70">
-          Khata Register • {customers.length} customer{customers.length !== 1 ? 's' : ''}
+          {customers.length} customer{customers.length !== 1 ? 's' : ''}
         </p>
       </div>
 
@@ -118,9 +117,8 @@ export default function CustomerList({
                 <li
                   key={customer._id}
                   onClick={() => onSelectCustomer(customer)}
-                  className={`flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-colors ${
-                    isSelected ? 'bg-[#f0f2f5]' : ''
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-colors ${isSelected ? 'bg-[#f0f2f5]' : ''
+                    }`}
                 >
                   <Avatar name={customer.name} />
                   <div className="flex-1 min-w-0">
